@@ -1,0 +1,28 @@
+html{
+  font-family: "Times New Roman", serif;
+  font-size: 12pt;
+}
+
+body > header > h1 {
+  font-size: 2rem;
+  text-align: center;
+}
+h1{
+  color: black;
+}
+
+
+body {
+
+  color: black;
+}
+
+
+h2{
+  font-size: 1.3rem;
+}
+
+
+body > aside, .menu, body > main > form{
+  display: none;
+}
