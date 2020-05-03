@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="../css/mystyle.css">
+  <link rel="stylesheet" type="text/css" href="../css/Print.css" media="print">
+  <meta charset="UTF-8">
+  <title>Main page</title>
+</head>
+
+<body>
+
+<header>
+  <h1>Header</h1>
+</header>
+
+<ul class="menu">
+  <li><a href="./Buildings/DOM1.html" title="link to Dom1">DOM1</a></li>
+  <li><a href="./Buildings/DOM3.html" title="link to Dom2">DOM2</a></li>
+  <li><a href="./Buildings/DOM3.html" title="link to Dom3">DOM3</a></li>
+  <li><a href="./News.html" title="You can know some news here">News</a></li>
+  <li><a href="./Info.html" title="You can know some info about author">Info</a></li>
+</ul>
+
+<input type="search" list="keywords" name="keywords">
+
+<datalist id="keywords">
+  <option value="Input">
+  <option value="Some text">
+</datalist>
+
+<aside>
+  <h2>Navigation</h2>
+
+  <ul>
+    <li><a href="#welcome">Welcome!</a></li>
+    <li><a href="#articles">Articles</a></li>
+    <li><a href="#output">Visitor opinions</a></li>
+    <li><a href="#input">Add your opinion</a></li>
+    <li><a href="#Addarticle">Add your article</a></li>
+  </ul>
+</aside>
+
+<nav id="menuIts" class="menu mnHide">
+  <a href="#welcome">Welcome!</a>
+  <a href="#articles">Articles</a>
+  <a href="#output">Visitor opinions</a>
+  <a href="#input">Add your opinion</a>
+  <a href="#Addarticle">Add your article</a>
+</nav>
+
+<main id="router-view">
+
+
+</main>
+
+<footer>
+  <h6>April and May 2020</h6>
+</footer>
+
+<svg xmlns="http://www.w3.org/2000/svg" stroke="black" fill="white">
+  <circle cx="40" cy="40" r="10" />
+
+  <svg>
+    <circle cx="40" cy="63" r="13" />
+  </svg>
+  <svg>
+    <circle cx="40" cy="23" r="6" />
+  </svg>
+  <svg>
+    <line x1="50" y1="40" x2="60" y2="49"/>
+  </svg>
+  <svg>
+    <line x1="30" y1="40" x2="20" y2="49"/>
+  </svg>
+</svg>
+
+<!--Templates for dynamically inserted html-->
+
+<script id="template-welcome" type="text/template">
+  <h2>Welcome!</h2>
+  <p>
+    Welcome to my page!
+  </p>
+</script>
+
+<script id="template-articles" type="text/template">
+  {{#articles}}
+  <article>
+    <h2><a href="{{detailLink}}">{{title}}</a></h2>
+    <p>
+      by {{author}}
+    </p>
+  </article>
+  {{/articles}}
+  <footer><a href="#menuIts" class="linkAsButton">Up to the menu</a></footer>
+
+</script>
+
+<script id="template-article" type="text/template">
+  <article>
+    <h3>{{title}}</h3>
+    <p>
+      by {{author}}
+    </p>
+    {{#imageLink}}
+    <figure>
+      <img src="{{imageLink}}" alt="article figure" />
+    </figure>
+    {{/imageLink}}
+    <div>{{{content}}}</div>
+    <p>
+      Keywords:
+      {{tags}}
+    </p>
+  </article>
+
+  <footer>
+    <a href="{{backLink}}" class="linkAsButton"><< Back</a>
+    <a href="{{editLink}}" class="linkAsButton">Edit</a>
+    <a href="{{deleteLink}}" class="linkAsButton">Delete</a>
+    <a href="#menuTitle" class="linkAsButton">Up to the menu</a>
+  </footer>
+
+</script>
+
+<script id="template-article-form" type="text/template">
+  <article>
+
+    <h2>{{formTitle}}</h2>
+    <br><br>
+
+    <form id="articleForm" onsubmit="return {{formSubmitCall}}">
+      <label for="author">Author:</label>
+      <input type="text" name="author" id="author" value="{{author}}" size="50" title="Article author, max. length 100 characters." maxlength="100" placeholder="e.g. Ján Trieska" />
+      <br>
+      <label for="title">Title:</label>
+      <input type="text" name="title" id="title" value="{{title}}" size="50"  maxlength="100" pattern="\S[\S\s]*" required title="Article title, mandatory item, max. length: 100 characters, the first character must not be a space." placeholder="e.g. My story." />
+      <br>
+      <label for="imageLink">Image (url):</label>
+      <input type="url" name="imageLink" id="imageLink" value="{{imageLink}}" size="50" title="Image URL, max. length 100 characters." maxlength="100"/>
+      <br>
+      <label></label><button type="button" id="btShowFileUpload" onclick="showFileUpload()">Upload image</button>
+
+      <fieldset class="added hiddenElm" id="fsetFileUpload">
+        <legend>Image Upload</legend>
+        <input type="file" id="flElm" name="file" accept="image/jpeg, image/png"/>
+        <br />
+        <button type="button" id="btFileUpload" onclick="uploadImg('{{urlBase}}')">Send image to server</button>
+        <button type="button" id="btCancelFileUpload" onclick="cancelFileUpload()">Cancel uploading</button>
+      </fieldset>
+
+
+      <br>
+      <label for="content">Article content:</label>
+      <textarea
+        name="content" id="content" spellcheck="true" lang="sk"
+        cols="50" rows="20" required
+        title="Article content, mandatory item, can be plain text or in HTML.">{{content}}</textarea>
+      <br>
+      <label for="tags">Keywords:</label>
+      <input  type="text" name="tags" id="tags" value="{{tags}}" size="50"
+              title="Keyword list, comma separated." placeholder="e.g. village, drama" />
+
+      <br>
+      <br>
+      <button type="reset">
+        Reset Form
+      </button>
+      <button type="submit">
+        {{submitBtTitle}}
+      </button>
+
+    </form>
+
+  </article>
+
+  <footer>
+    <a href="{{backLink}}" class="linkAsButton"><< Back</a>
+    <a href="#menuTitle" class="linkAsButton">Up to the menu</a>
+  </footer>
+</script>
+
+<script id="template-articles-error" type="text/template">
+
+  <article>
+    <h2>Article(s) acquisition failed</h2>
+    <p>
+      {{errMessage}}
+    </p>
+  </article>
+  <footer><a href="#menuIts" class="linkAsButton">Up to the menu</a></footer>
+
+</script>
+
+<script id="template-input" type="text/template">
+  <form id="input">
+    <label for="text" id="start">Name:</label><br>
+    <input type="text" id="text" name="text" required><br>
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br>
+    <label for="url">URL:</label><br>
+    <input type="url" id="url" name="url"><br>
+    <label for="radiobutton1">1:</label>
+    <input type="radio" id="radiobutton1" name="radiobutton"><br>
+    <label for="radiobutton2">2:</label>
+    <input type="radio" id="radiobutton2" name="radiobutton"><br>
+    <label for="checkbox">Checkbox:</label><br>
+    <input type="checkbox" id="checkbox" name="checkbox"><br>
+
+    <textarea name="textarea" id="textarea" rows="10" cols="60" required></textarea><br>
+    <label for="submite"></label>
+    <input type="submit" id="submite" name="submite">
+    <label for="reset"></label>
+    <input type="reset" id="reset" name="reset">
+  </form>
+</script>
+
+<script id = "MyInfo" type="text/template">
+
+  <article  id="artOpinions">
+    <h2>Some info</h2>
+    <div id="opinionsContainer"></div>
+  </article>
+
+  <section>
+    <h3>{{name}} <i>{{createdDate}}</i></h3>
+    <p>{{Text}}</p>
+  </section>
+
+</script>
+
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.1.0/mustache.min.js"
+  integrity="sha256-MPgtcamIpCPKRRm1ppJHkvtNBAuE71xcOM+MmQytXi8="
+  crossorigin="anonymous">
+
+</script>
+
+<!--include mustache javascript-->
+<script  src="../js/vendor/mustache.min.js"></script>
+
+<!--include javascript for this page-->
+<script  type="module" src="../js/main.js"></script>
+
+<script src="../js/AticleForm.js"></script>
+
+
+</body>
+</html>
+
+
+
+
